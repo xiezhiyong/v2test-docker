@@ -12,12 +12,12 @@ if [ -z "${APP_NAME}" ]; then
 fi
 
 flyctl info --app "${APP_NAME}" >/tmp/${APP_NAME} 2>&1;
-if [ "$(cat /tmp/${APP_NAME} | grep -o "Could not resolve")" = "Could not resolve" ]; then
-    printf '\e[33mCould not resolve app. Next, create the App.\n\e[0m'
+if [ "$(cat /tmp/${APP_NAME} | grep -o "Could not")" = "Could not" ]; then
+    printf '\e[33mNext, create the App.\n\e[0m'
     flyctl apps create "${APP_NAME}" >/dev/null 2>&1;
 
     flyctl info --app "${APP_NAME}" >/tmp/${APP_NAME} 2>&1;
-    if [ "$(cat /tmp/${APP_NAME} | grep -o "Could not resolve")" != "Could not resolve" ]; then
+    if [ "$(cat /tmp/${APP_NAME} | grep -o "Could not")" != "Could not" ]; then
         printf '\e[32mCreate app success.\n\e[0m'
     else
         printf '\e[31mCreate app failed.\n\e[0m' && exit 1
@@ -42,8 +42,8 @@ processes = []
   protocol = "tcp"
   script_checks = []
   [services.concurrency]
-    hard_limit = 50
-    soft_limit = 45
+    hard_limit = 95
+    soft_limit = 90
     type = "connections"
   [[services.ports]]
     force_https = true
